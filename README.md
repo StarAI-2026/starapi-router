@@ -1,19 +1,91 @@
 # StarAPI Router
 
-Official public download and update repository for **StarAPI Router**.
+> 本地优先的统一 AI API 网关：在自己的电脑上，为兼容客户端提供一个稳定的本地地址和一把统一 API Key，集中调用你已配置的 AI 服务与模型。
 
-## Download
+StarAPI Router 运行在 Windows 本机。你可以在浏览器管理面板中配置上游服务、账号和模型；客户端统一请求本地接口即可使用已启用的模型。上游 API Key 只保存在本机，不需要逐个填写到客户端。
 
-The only currently supported public release is [v1.2.7](https://github.com/StarAI-2026/starapi-router/releases/tag/v1.2.7).
+## 当前版本功能总览
 
-Download the Windows installer or portable package from that Release page. Verify the downloaded file against `checksums.txt` before installing.
+| 功能 | 具体作用 |
+|---|---|
+| **统一本地 API 网关** | 使用一个本地地址 `http://127.0.0.1:1991/v1` 和一把统一 API Key 调用所有已启用模型，客户端不必分别配置每个上游服务。 |
+| **浏览器管理面板** | 打开 `http://127.0.0.1:1990` 或 `http://127.0.0.1:1991/panel/`，即可通过图形界面管理供应商、账号、套餐、模型和访问密钥，无需手工编辑配置文件。 |
+| **多服务聚合** | 可接入多个兼容的上游服务与多个账号，把模型统一放到一个本地入口中管理。 |
+| **请求分配与负载均衡** | 在已配置的可用账号之间分配请求，减少单一账号压力，并在配置允许时支持重试与冷却管理。 |
+| **常见 API 协议适配** | 统一处理常见 AI 对话、响应和消息请求格式，让兼容客户端通过一致的本地入口访问不同上游。 |
+| **流式响应支持** | 支持将上游的流式响应转发给客户端，适合需要边生成边展示内容的使用场景。 |
+| **视觉路由** | 启用并配置视觉模型后，可以把图片内容转换为文本上下文，再交给不直接接收图片的目标模型处理。 |
+| **思考/推理内容处理** | 对上游支持的 thinking / reasoning 内容进行统一处理与适配，尽量按对应协议保留展示。 |
+| **模型别名** | 上游请求仍使用真实模型名；你可以在面板和客户端模型列表中使用更清楚、更易识别的展示名称。 |
+| **统一密钥管理** | 为客户端生成随机本地 API Key；客户端只使用这把 Key，上游凭据继续保存在本机。 |
+| **用量、Token 与费用估算** | 在本地记录请求用量、Token 消耗、估算费用和相关记录，便于在管理面板中查看。 |
+| **套餐与授权管理** | 在启用商业授权时，支持本机绑定激活、套餐配额和到期控制。 |
+| **本地优先的隐私保护** | 本地配置、上游凭据、使用数据和日志保存在你的电脑上；公开发行仓库不包含这些内容。 |
+| **Windows x64 便携运行包** | 当前公开 `v1.2.7` 提供 Windows x64 便携包：解压后运行 `starapi-router.exe` 即可。 |
+| **诊断与健康检查** | 可通过健康检查、模型列表校验和真实请求探测，确认本地服务和上游配置是否正常。 |
 
-## Release policy
+## 工作方式
 
-- This repository intentionally contains only public distribution metadata and reviewed Release assets.
-- Product source code, private configuration, credentials, customer data, and private build artifacts are not published here.
-- Older versions are intentionally not retained in this public repository. Use the current release unless StarAPI support provides a specific recovery package.
+```text
+兼容的 AI 客户端
+        |
+        v
+http://127.0.0.1:1991/v1 + 统一 API Key
+        |
+        v
+StarAPI Router（你的电脑）
+        |
+        +-- 已配置的上游服务、账号和模型
+```
 
-## Security reporting
+## 下载、校验与启动（Windows x64）
 
-Please report security issues privately to the project owner instead of opening a public issue.
+1. 打开[最新公开版本](https://github.com/StarAI-2026/starapi-router/releases/latest)。
+2. 下载 `StarAPI_1.2.7_windows_amd64.zip` 与同一页面的 `checksums.txt`。
+3. 在 PowerShell 中校验下载文件：
+
+   ```powershell
+   Get-FileHash .\StarAPI_1.2.7_windows_amd64.zip -Algorithm SHA256
+   ```
+
+   将显示的 SHA-256 与 `checksums.txt` 中的值逐字比对；一致后再运行。
+4. 解压 ZIP 到你有写入权限的目录，运行 `starapi-router.exe`。
+5. 在浏览器中打开管理面板：`http://127.0.0.1:1990` 或 `http://127.0.0.1:1991/panel/`。
+
+> 当前公开版本是 Windows x64 便携运行包，不是安装程序；公开仓库不提供产品源代码。
+
+## 四步完成首次配置
+
+1. **添加上游服务**：在面板的供应商管理中填写服务地址和上游 API Key，保存配置。
+2. **创建套餐并启用模型**：添加上游实际接受的模型名；需要时填写展示别名，然后启用该模型。
+3. **生成统一 API Key**：在统一接口/密钥管理页面生成随机本地 Key，并妥善保存。
+4. **配置客户端**：在兼容客户端中填写以下参数：
+
+   ```text
+   Base URL: http://127.0.0.1:1991/v1
+   API Key:  你生成的统一 API Key
+   Model:    管理面板中已启用的模型
+   ```
+
+## 常用操作说明
+
+- **添加或停用模型**：在管理面板修改模型状态即可影响客户端可见的模型列表；不必修改客户端配置。
+- **查看调用用量**：进入用量统计页面查看本机记录的 Token、请求与费用估算。
+- **检查服务状态**：先确认本地服务可访问，再使用模型列表和真实请求探测定位上游配置问题。
+- **使用图片请求**：先在视觉相关设置中配置可用的视觉模型并启用视觉路由；未配置视觉模型时，不应假定所有目标模型都能接收图片。
+
+## 安全与隐私
+
+- 不要上传或公开本机配置、API Key、认证目录、授权材料、数据库、日志或环境变量文件。
+- 仅从本仓库的当前 Release 下载，并在运行前校验 SHA-256。
+- 本仓库仅用于公开下载与更新说明，只包含审核后的公开说明、校验文件和批准的公开运行包；不发布产品源代码、私密配置或私有构建输入。
+
+## 问题反馈
+
+使用中遇到问题时，可以在本仓库创建 Issue。请写明版本号、Windows 版本、复现步骤、实际结果和期望结果；**不要**在 Issue、截图或日志中提交 API Key、完整配置文件、授权码、个人数据或其他凭据。
+
+公开仓库接受与公开文档、下载说明、校验流程和 Issue 模板相关的 Pull Request。产品核心源码不在公开仓库中，功能代码改动不会通过这里合并。
+
+## 版本策略
+
+本仓库仅保留当前支持的公开版本。每个版本的功能说明、修复内容、下载文件和校验值均以对应 Release 页面为准。
