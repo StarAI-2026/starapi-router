@@ -124,21 +124,32 @@ StarAPI Router（你的电脑）
                          （llama.cpp / Ollama）
 ```
 
-## 下载、校验与启动（Windows x64）
+## 下载、校验与启动
 
 1. 打开[最新公开版本](https://github.com/StarAI-2026/starapi-router/releases/latest)。
-2. 下载 `StarAPI_1.2.7_windows_amd64.zip` 与同一页面的 `checksums.txt`。
-3. 在 PowerShell 中校验：
+2. 按你的系统选择对应的包（`<版本号>` 以 Release 页面实际文件为准）：
+
+   | 系统 | 机型 | 下载文件 |
+   |------|------|----------|
+   | Windows | 常见电脑（Intel/AMD） | `StarAPI_<版本号>_windows_amd64.zip` |
+   | Windows | ARM 设备（骁龙笔记本等） | `StarAPI_<版本号>_windows_aarch64.zip` |
+   | macOS | Apple Silicon（M 系列） | `StarAPI_<版本号>_darwin_aarch64.tar.gz` |
+   | macOS | Intel 机型 | `StarAPI_<版本号>_darwin_amd64.tar.gz` |
+   | Linux | x86_64 | `StarAPI_<版本号>_linux_amd64.tar.gz` |
+   | Linux | ARM64 | `StarAPI_<版本号>_linux_aarch64.tar.gz` |
+   | Linux（musl/OpenWrt） | 对应架构 | `StarAPI_<版本号>_linux_<架构>_no-plugin.tar.gz` |
+
+3. 在 PowerShell 中校验（以 Windows amd64 为例）：
 
    ```powershell
-   Get-FileHash .\StarAPI_1.2.7_windows_amd64.zip -Algorithm SHA256
+   Get-FileHash .\StarAPI_<版本号>_windows_amd64.zip -Algorithm SHA256
    ```
 
-   将显示的 SHA-256 与 `checksums.txt` 中同名文件的值逐字比对，一致后再运行。
-4. 解压 ZIP 到有写入权限的目录，运行 `starapi-router.exe`。
+   将显示的 SHA-256 与同一 Release 页面 `checksums.txt` 中同名文件的值逐字比对，一致后再运行。
+4. 解压到有写入权限的目录，运行 `starapi-router.exe`（Windows）或 `./starapi-router`（macOS/Linux）。
 5. 打开管理面板：`http://127.0.0.1:1990` 或 `http://127.0.0.1:1991/panel/`。
 
-> 当前公开版本是 Windows x64 便携运行包，不是安装程序；公开仓库不提供产品源代码。
+> 公开仓库提供各平台便携运行包，不是安装程序；公开仓库不提供产品源代码。Linux `no-plugin` 版本不支持动态库插件，面向 musl 或老系统。
 
 ## 首次配置
 
