@@ -53,15 +53,23 @@ StarAPI Router 把路由、密钥、降级链、客户端接管和用量统计�
 
 ## 下载与启动
 
-推荐绿色便携版：解压后双击 `StarAPI Router.exe` 即可，无需安装程序。
+所有平台均提供**免安装纯绿色便携版**：解压即可直接使用，内嵌完整控制面板 UI 与启动脚本，无需外部配置或环境依赖。
 
-1. 夸克网盘（国内高速）：<https://pan.quark.cn/s/94d378032710>
-2. GitHub 最新发布页：<https://github.com/StarAI-2026/starapi-router/releases/latest>
-3. 购买授权：<https://catfk.com/shop/starapi>
+| 操作系统 | 适用硬件与架构 | 便携版资源文件 | 启动运行方式 |
+| :--- | :--- | :--- | :--- |
+| **Windows** | x64 (常见电脑) | `StarAPI-Router-v*-windows-amd64-portable.zip` | 解压后双击 `StarAPI Router.exe` |
+| **macOS** | Apple Silicon (M1/M2/M3/M4) | `StarAPI-Router-v*-darwin-arm64-portable.tar.gz` | 解压后终端运行 `./start.sh` |
+| **macOS** | Intel 处理器机型 | `StarAPI-Router-v*-darwin-amd64-portable.tar.gz` | 解压后终端运行 `./start.sh` |
+| **Linux** | x86_64 通用 (PC / 服务器) | `StarAPI-Router-v*-linux-amd64-portable.tar.gz` | 解压后终端运行 `./start.sh` |
+| **Linux** | ARM64 (树莓派 / 软路由 / 鲲鹏) | `StarAPI-Router-v*-linux-arm64-portable.tar.gz` | 解压后终端运行 `./start.sh` |
 
-Windows 首次运行若出现“Windows 已保护你的电脑”：点「更多信息」→「仍要运行」。这是未购买商业代码签名证书时的 SmartScreen 提示，不是安装失败。
+### 官方获取渠道
 
-当前公开 Windows 包是绿色便携版。macOS / Linux / ARM 需要对应架构的便携包，不能直接使用 Windows zip。
+1. 夸克网盘（国内高速免翻）：<https://pan.quark.cn/s/94d378032710>
+2. GitHub 最新 Release 发布页：<https://github.com/StarAI-2026/starapi-router/releases/latest>
+3. 会员授权购买：<https://catfk.com/shop/starapi>
+
+Windows 首次运行若弹出“Windows 已保护你的电脑”拦截框：请点击「更多信息」→「仍要运行」。这是未购买昂贵商业代码签名证书时的系统信誉提示，纯本地运行，不含任何后门木马。
 
 ## 首次使用
 
